@@ -6,8 +6,11 @@ import 'vuetify/dist/vuetify.css'
 import VueCordova from 'vue-cordova'
 import VueHead from 'vue-head'
 
-import App from './App'
+import app from './app.vue'
 import router from './router'
+import store from './store'
+
+import '@fortawesome/fontawesome-free/js/all'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
@@ -26,8 +29,9 @@ if (window.location.protocol === 'file:' || window.location.port === '3000') {
 new Vue({
   el: '#app',
   router,
-  template: '<App/>',
-  components: { App },
+  template: '<app/>',
+  components: { app },
+  store,
   head: {
     meta: [
       {
