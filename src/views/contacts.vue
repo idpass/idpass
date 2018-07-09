@@ -9,10 +9,13 @@
               div
                 h3.headline {{ contact.shortName }}
                 div {{ contact.legalName }}
+                div {{ (new Date(contact.birthDate)).toLocaleDateString() }}
             v-flex(xs3)
               v-card-media(contain, height="80px", :src=" 'http://i.pravatar.cc/80?u=' + contact._id ")
           v-divider
           v-card-actions
+            v-btn(color="primary", flat, @click="showContactDialog(contact)")
+              | Edit
             v-spacer
             v-btn(color="error", flat, icon, @click="showDeleteDialog(contact)")
               v-icon delete
@@ -54,6 +57,7 @@ export default {
   methods: {
 
     ...mapMutations('contacts', [
+      'showContactDialog',
       'showDeleteDialog',
       'hideDeleteDialog'
     ]),

@@ -6,22 +6,29 @@
        
         v-flex(md8, xs12)
           v-layout(row)
+            
             v-flex(xs6)
               v-text-field(
-                v-model="legalName",
+                :value="legalName",
+                @blur="legalName = $event.target.value",
                 prepend-icon="person",
                 label="Full Legal Name")
+          
             v-flex(xs6)
               v-text-field(
-                v-model="shortName",
+                :value="shortName",
+                @blur="shortName = $event.target.value",
                 label="Short Name")
+
           v-layout(row)
+            
             v-flex(xs12, md6)
               v-select(
                 prepend-icon="face",
                 :items="genderItems"
                 v-model="gender"
                 label="Gender")
+                
           v-layout(row)
             v-flex(xs12, md6)
               v-menu(

@@ -14,9 +14,9 @@
     
       v-toolbar-title.ml-0.pl-3(style="width: 300px")
         v-toolbar-side-icon(@click.stop="drawer = !drawer")
-        span.hidden-sm-and-down 
+        span.hidden-sm-and-down
           | {{ title }}
-      
+
       v-text-field(flat, solo-inverted, prepend-icon="search", 
         label="Search")
 

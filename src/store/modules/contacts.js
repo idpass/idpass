@@ -32,16 +32,20 @@ export default {
       state.contacts = contacts
     },
 
-    showContactDialog (state) {
+    showContactDialog (state, contact) {
+      if (contact._id) {
+        Object.assign(state.contactForm, contact)
+      }
       state.isEditingContact = true
     },
 
     hideContactDialog (state) {
       state.isEditingContact = false
+      state.contactForm = {}
     },
 
     showDeleteDialog (state, contact) {
-      state.targetContact = contact
+      Object.assign(state.targetContact, contact)
       state.isDeletingContact = true
     },
 
@@ -62,10 +66,6 @@ export default {
     removeContact (state, id) {
       let contactIdx = state.contacts.findIndex(({_id}) => _id === id)
       state.contacts.splice(contactIdx, 1)
-    },
-
-    clearForm (state) {
-      state.contactForm = {}
     }
   },
 
@@ -94,7 +94,6 @@ export default {
       let updatedContact = await db.get(contact._id)
       commit('updateContact', updatedContact)
       commit('hideContactDialog')
-      commit('clearForm')
     },
 
     async deleteContact ({commit}, id) {
