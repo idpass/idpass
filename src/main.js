@@ -1,13 +1,15 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import '@fortawesome/fontawesome-free/css/all.css'
+import 'formiojs/dist/formio.full.css'
+
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.css'
 import VueCordova from 'vue-cordova'
 import VueHead from 'vue-head'
 
-import app from './app.vue'
+import app from './App.vue'
 import router from './router'
 import store from './store'
 

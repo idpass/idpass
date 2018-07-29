@@ -1,9 +1,9 @@
 <template lang="pug">
 
   v-list(dense)
- 
+
     template(v-for="item in navItems")
- 
+
       v-layout(row, align-center, v-if="item.heading", :key="item.heading")
         v-flex(xs6)
           v-subheader(v-if="item.heading")
@@ -23,13 +23,13 @@
         v-list-tile(
           v-for="(child, i) in item.children",
           :key="i",
-          @click="")  
+          @click="")
           v-list-tile-action(v-if="child.icon")
             v-icon {{ child.icon }}
           v-list-tile-content
             v-list-tile-title {{ child.text }}
 
-      v-list-tile(v-else, :key="item.text", @click="")
+      v-list-tile(v-else, :key="item.text" :to="item.path === '#' ? '' : item.path" )
         v-list-tile-action
           v-icon {{ item.icon }}
         v-list-tile-content
@@ -44,8 +44,8 @@ export default {
     return {
       navItems: [
         // { heading: '' },
-        { icon: 'contacts', text: 'Register' },
-        { icon: 'fas fa-id-card', text: 'IDs' },
+        { icon: 'contacts', text: 'Register', path: '/persons' },
+        { icon: 'fas fa-id-card', text: 'IDs', path: '/' },
         { icon: 'fas fa-qrcode', text: 'Reader' },
         { divider: true },
         // {

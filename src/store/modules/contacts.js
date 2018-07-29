@@ -77,10 +77,11 @@ export default {
       commit('setContacts', contacts)
     },
 
-    async postContact ({commit, dispatch, state}) {
+    async postContact ({commit, dispatch, state}, details) {
+      console.log('postContact', arguments)
       let contact = {
         _id: `contact:${generateId()}`,
-        ...state.contactForm
+        ...details
       }
       await dispatch('putContact', contact)
     },
@@ -92,6 +93,7 @@ export default {
       }
       await db.put(contact)
       let updatedContact = await db.get(contact._id)
+      console.log('putContact', updatedContact)
       commit('updateContact', updatedContact)
       commit('hideContactDialog')
     },
