@@ -1,242 +1,93 @@
 <template lang="pug">
-  v-tabs(v-model="currentItem" fixed-tabs)
-    v-tab(:key="'details'") Details
-    v-tab(:key="'household'") Household
-    v-tab(:key="'claims'") Claims
-    v-tab-item(:key="'details'")
-      v-card(flat)
-        v-card-text
-          formio(:form="form" :submission="submission" :options="{}" v-on:submit="onSubmit"  v-on:change="onChange")
-          v-btn(color="error" @click="onCancel(submission)") Cancel
-          v-btn(color="success" @click="postContact(submission.data)" :disabled="!isValid") Save
-    v-tab-item(:key="'household'")
-      v-card(flat)
-        v-card-text HouseHold
-    v-tab-item(:key="'claims'")
-      v-card(flat)
-        v-card-text Youpi Claims
+  div
+    v-tabs(v-model="currentItem" fixed-tabs)
+      v-tab(:key="'details'") Details
+      v-tab(:key="'household'") Household
+      v-tab(:key="'claims'") Claims
+      v-tab-item(:key="'details'")
+        v-card(flat)
+          v-card-text
+            v-container.pa-4(grid-list-sm)
+              formio(:form="personForm" :submission="submission" :options="{}" v-on:change="onChange")
+              v-btn(color="error" @click="onCancel(submission)") Cancel
+              v-btn(color="success" @click="postContact(submission.data)" :disabled="!isValid") Save
+      v-tab-item(:key="'household'")
+        v-card(flat)
+          v-card-text Not Implemented
+      v-tab-item(:key="'claims'")
+        v-card(flat)
+          v-card-text(v-if="!otherForm") No Claims yet
+          v-container.pa-4(grid-list-sm v-if="otherForm")
+            formio(:form="otherForm" :submission="otherSubmission" :options="{}" v-on:change="onChange")
+            v-btn(color="error" @click="") Cancel
+            v-btn(color="success" @click="" :disabled="!isValid") Save
+
+
+    // Menu
+    v-menu(top offset-y v-if="!isEditingForm")
+      v-btn(fab, dark,
+          slot="activator"
+          v-model="fab"
+          color="blue darken-2")
+          v-icon add
+          v-icon close
+      v-list
+        v-list-tile(v-for="(item, index) in otherForms" :key="index" @click="onSelectOtherForm(item)")
+          v-list-tile-title {{ item.name }}
 </template>
 
 
 <script>
   import {Form} from 'vue-formio'
-  import {mapActions} from 'vuex'
+  import {mapActions, mapState} from 'vuex'
 
   export default {
     name: 'person',
 
     data () {
       return {
+        fab: false,
         menu: false,
         isValid: false,
-        currentItem: 'details',
-        form: {
-          name: 'details-person',
-          _id: 'details-person',
-          'components': [
-            {
-              'input': true,
-              'tableView': true,
-              'inputType': 'text',
-              'inputMask': '',
-              'label': 'Last Name',
-              'key': 'lastName',
-              'placeholder': 'Enter your last name',
-              'prefix': '',
-              'suffix': '',
-              'multiple': false,
-              'defaultValue': '',
-              'protected': false,
-              'unique': false,
-              'persistent': true,
-              'validate': {
-                'required': true,
-                'minLength': 3,
-                'maxLength': '',
-                'pattern': '',
-                'custom': '',
-                'customPrivate': false
-              },
-              'conditional': {
-                'show': '',
-                'when': null,
-                'eq': ''
-              },
-              'type': 'textfield',
-              'autofocus': false,
-              'hidden': false,
-              'clearOnHide': true,
-              'spellcheck': true,
-              'labelPosition': 'top',
-              'inputFormat': 'plain',
-              'tags': [],
-              'properties': {}
-            },
-            {
-              'input': true,
-              'tableView': true,
-              'inputType': 'text',
-              'inputMask': '',
-              'label': 'First Name',
-              'key': 'firstName',
-              'placeholder': 'Enter your first name',
-              'prefix': '',
-              'suffix': '',
-              'multiple': false,
-              'defaultValue': '',
-              'protected': false,
-              'unique': false,
-              'persistent': true,
-              'validate': {
-                'required': true,
-                'minLength': '',
-                'maxLength': '',
-                'pattern': '',
-                'custom': '',
-                'customPrivate': false
-              },
-              'conditional': {
-                'show': '',
-                'when': null,
-                'eq': ''
-              },
-              'type': 'textfield',
-
-              'autofocus': true,
-              'hidden': false,
-              'clearOnHide': true,
-              'spellcheck': true,
-              'labelPosition': 'top',
-              'inputFormat': 'plain',
-              'tags': [],
-              'properties': {},
-              'calculateValue': ''
-            },
-            {
-              'input': true,
-              'tableView': true,
-              'label': 'Message',
-              'key': 'message',
-              'placeholder': 'What do you think?',
-              'prefix': '',
-              'suffix': '',
-              'rows': 3,
-              'multiple': false,
-              'defaultValue': '',
-              'protected': false,
-              'persistent': true,
-              'validate': {
-                'required': false,
-                'minLength': '',
-                'maxLength': '',
-                'pattern': '',
-                'custom': ''
-              },
-              'type': 'textarea',
-              'conditional': {
-                'show': false,
-                'when': null,
-                'eq': ''
-              },
-
-              'autofocus': false,
-              'hidden': false,
-              'wysiwyg': false,
-              'clearOnHide': true,
-              'spellcheck': true
-            },
-            {
-              'input': true,
-              'tableView': true,
-              'label': 'Signature',
-              'key': 'signature',
-              'placeholder': '',
-              'footer': 'Sign above',
-              'width': '100%',
-              'height': '150px',
-              'penColor': 'black',
-              'backgroundColor': 'rgb(245,245,235)',
-              'minWidth': '0.5',
-              'maxWidth': '2.5',
-              'protected': false,
-              'persistent': true,
-              'hidden': false,
-              'clearOnHide': true,
-              'validate': {
-                'required': false
-              },
-              'type': 'signature',
-              'hideLabel': true,
-              'tags': [],
-              'conditional': {
-                'show': '',
-                'when': null,
-                'eq': ''
-              },
-              'properties': {}
-            }
-          ],
-          'display': 'form'
-        },
-        // form: {
-        //   name: 'details-person',
-        //   _id: 'details-person',
-        //   components: [
-        //     {
-        //       type: 'textfield',
-        //       key: 'firstName',
-        //       label: 'First Name',
-        //       placeholder: 'Enter your first name.',
-        //       input: true,
-        //       validate: {
-        //         required: false,
-        //         minLength: '4',
-        //         maxLength: '',
-        //         pattern: '',
-        //         custom: '',
-        //         customPrivate: false
-        //       }
-        //     },
-        //     {
-        //       type: 'textfield',
-        //       key: 'lastName',
-        //       label: 'Last Name',
-        //       placeholder: 'Enter your last name',
-        //       input: true
-        //     }
-        //   ]
-        // },
+        currentItem: null,
         submission: {
           data: {
             firstName: 'Jeremi',
             lastName: 'Joslin'
           }
-        }
+        },
+        otherForm: null,
+        otherSubmission: {}
       }
     },
+    created () {
+      this.$store.dispatch('forms/getForms')
+    },
     components: {formio: Form},
-    computed: {},
+    computed: {
+      ...mapState('forms', [
+        'personForm',
+        'otherForms'
+      ])},
     methods: {
-      onSubmit () {
-        let form = getForm('details-person')
-        this.isValid = form.isValid()
-        console.log(this.isValid)
-        if (!this.isValid) {
-          return
-        }
-        console.log(this.submission.data)
-        // postContact(this.submission.data)
-      },
       onChange () {
-        console.log('onChange', arguments)
-        let form = getForm('details-person')
-        this.isValid = form.isValid()
+        let form = getForm('person')
+        if (form) {
+          this.isValid = form.isValid()
+        } else {
+          this.isValid = false
+        }
       },
       onCancel () {
-        let form = getForm('details-person')
-        form.resetValue()
-        console.log(form)
         console.log('onCancel', arguments)
+        let form = getForm('person')
+        console.log(form)
+        form.resetValue()
+      },
+
+      onSelectOtherForm (form) {
+        this.otherSubmission = {}
+        this.otherForm = form
       },
 
       ...mapActions('contacts', [
@@ -247,7 +98,8 @@
 
   function getForm (name) {
     for (let form of Object.values(parent.Formio.forms)) {
-      if (form.form.name === name) {
+      console.log(form, form._form, form._form.kind)
+      if (form._form.kind === name) {
         return form
       }
     }

@@ -1,7 +1,7 @@
 <template lang="pug">
 
   v-app(id="inspire")
-    
+
     v-navigation-drawer(fixed, app,
       :clipped="$vuetify.breakpoint.lgAndUp",
       v-model="drawer")
@@ -11,35 +11,24 @@
     v-toolbar(fixed, app, dark,
       :clipped-left="$vuetify.breakpoint.lgAndUp",
       color="blue darken-3")
-    
+
       v-toolbar-title.ml-0.pl-3(style="width: 300px")
         v-toolbar-side-icon(@click.stop="drawer = !drawer")
         span.hidden-sm-and-down
           | {{ title }}
 
-      v-text-field(flat, solo-inverted, prepend-icon="search", 
-        label="Search")
+      <!--v-text-field(flat, solo-inverted, prepend-icon="search",-->
+        <!--label="Search")-->
 
       v-spacer.hidden-sm-and-down
-      
-      v-btn.hidden-sm-and-down(icon)
-        v-icon apps
-
-      v-btn.hidden-sm-and-down(icon)
-        v-icon notifications
-
-      v-btn.hidden-sm-and-down(icon, large)
-        v-avatar(size="32px", tile)
-          img(src="https://vuetifyjs.com/static/doc-images/logo.svg",
-            alt="Vuetify")
 
     v-content
       router-view
 
-    v-btn(fab, bottom, right, dark, fixed,
-      color="pink",
-      @click.stop="showContactDialog")
-      v-icon add
+    <!--v-btn(fab, bottom, right, dark, fixed,-->
+      <!--color="pink",-->
+      <!--@click.stop="showContactDialog")-->
+      <!--v-icon add-->
 
     v-dialog(:fullscreen="$vuetify.breakpoint.mdAndDown", v-model="isEditingContact", width="800px")
       v-card
@@ -48,9 +37,9 @@
         contact-form
         v-card-actions
           v-spacer
-          v-btn(flat, @click="hideContactDialog") 
+          v-btn(flat, @click="hideContactDialog")
             | Cancel
-          v-btn(flat, @click="postContact", color="primary") 
+          v-btn(flat, @click="postContact", color="primary")
             | Save
 
 </template>

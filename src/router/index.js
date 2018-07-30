@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Contacts from '@/views/contacts'
 import Person from '@/views/person'
+import Forms from '@/views/forms'
 
 Vue.use(Router)
 
@@ -16,6 +17,10 @@ export default new Router({
       path: '/persons',
       name: 'person',
       component: Person
+    }, {
+      path: '/forms',
+      name: 'forms',
+      component: Forms
     }
   ]
 })

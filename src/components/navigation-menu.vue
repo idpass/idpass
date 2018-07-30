@@ -47,6 +47,7 @@ export default {
         { icon: 'contacts', text: 'Register', path: '/persons' },
         { icon: 'fas fa-id-card', text: 'IDs', path: '/' },
         { icon: 'fas fa-qrcode', text: 'Reader' },
+        { icon: 'fas fa-form', text: 'Forms', path: '/forms' },
         { divider: true },
         // {
         //   icon: 'keyboard_arrow_up',
