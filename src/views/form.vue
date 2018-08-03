@@ -1,9 +1,13 @@
 <template lang="pug">
-  v-card()
+  
+  v-card
     v-card-text
-      formbuilder(v-bind:form="form" v-bind:options="{}")
-      v-btn(color="error" @click="onCancel(form)") Cancel
-      v-btn(color="success" @click="postForm(form)") Save
+      formbuilder(:form="form", :options="{}")
+      v-btn(color="error", @click="onCancel(form)") 
+        | Cancel
+      v-btn(color="success", @click="postForm(form)") 
+        | Save
+
 </template>
 
 

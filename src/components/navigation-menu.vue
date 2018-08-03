@@ -19,21 +19,26 @@
         append-icon="")
         v-list-tile(slot="activator")
           v-list-tile-content
-            v-list-tile-title {{ item.text }}
+            v-list-tile-title
+              | {{ item.text }}
         v-list-tile(
           v-for="(child, i) in item.children",
           :key="i",
           @click="")
           v-list-tile-action(v-if="child.icon")
-            v-icon {{ child.icon }}
+            v-icon(:class="{'icon-has-plus': item.iconHasPlus}")
+              | {{ child.icon }}
           v-list-tile-content
-            v-list-tile-title {{ child.text }}
+            v-list-tile-title
+              | {{ child.text }}
 
       v-list-tile(v-else, :key="item.text" :to="item.path === '#' ? '' : item.path" )
         v-list-tile-action
-          v-icon {{ item.icon }}
+          v-icon(:class="{'icon-has-plus': item.iconHasPlus}")
+            | {{ item.icon }}
         v-list-tile-content
-          v-list-tile-title {{ item.text }}
+          v-list-tile-title
+            | {{ item.text }}
 
 </template>
 
@@ -43,12 +48,42 @@ export default {
   data () {
     return {
       navItems: [
-        // { heading: '' },
-        { icon: 'contacts', text: 'Register', path: '/persons' },
-        { icon: 'fas fa-id-card', text: 'IDs', path: '/' },
-        { icon: 'fas fa-qrcode', text: 'Reader' },
-        { icon: 'fas fa-form', text: 'Forms', path: '/forms' },
+        { icon: 'dashboard',
+          text: 'Dashboard',
+          path: '/' },
+
+        { heading: 'Register' },
+
+        { icon: 'person',
+          iconHasPlus: true,
+          text: 'Person',
+          path: '/person' },
+
+        { icon: 'home',
+          iconHasPlus: true,
+          text: 'Household',
+          path: '/household' },
+
+        { heading: 'Find' },
+
+        { icon: 'fas fa-search',
+          text: 'Search',
+          path: '/search' },
+
+        { icon: 'fas fa-qrcode',
+          text: 'Scan',
+          path: '/scan' },
+
         { divider: true },
+
+        { icon: 'edit',
+          text: 'Forms',
+          path: '/forms' },
+
+        { icon: 'settings',
+          text: 'Settings',
+          path: '/settings' }
+
         // {
         //   icon: 'keyboard_arrow_up',
         //   'icon-alt': 'keyboard_arrow_down',
@@ -62,7 +97,6 @@ export default {
         //     { text: 'Other contacts' }
         //   ]
         // },
-        { icon: 'settings', text: 'Settings' }
       ]
     }
   }

@@ -1,69 +1,61 @@
 <template lang="pug">
 
-  v-app(id="inspire")
+  v-app(id="idpass")
 
-    v-navigation-drawer(fixed, app,
-      :clipped="$vuetify.breakpoint.lgAndUp",
+    v-navigation-drawer(app, fixed, right,
       v-model="drawer")
-
       navigation-menu
 
-    v-toolbar(fixed, app, dark,
-      :clipped-left="$vuetify.breakpoint.lgAndUp",
-      color="blue darken-3")
-
-      v-toolbar-title.ml-0.pl-3(style="width: 300px")
-        v-toolbar-side-icon(@click.stop="drawer = !drawer")
-        span.hidden-sm-and-down
-          | {{ title }}
-
-      <!--v-text-field(flat, solo-inverted, prepend-icon="search",-->
-        <!--label="Search")-->
-
-      v-spacer.hidden-sm-and-down
+    v-toolbar(app, fixed, flat, color="transparent",
+      v-if="$route.name === 'home'")
+      v-btn(icon)
+        v-icon cloud_download
+      v-spacer
+      v-btn(icon, 
+        @click.stop="drawer = !drawer")
+        v-icon menu
 
     v-content
       router-view
 
-    <!--v-btn(fab, bottom, right, dark, fixed,-->
-      <!--color="pink",-->
-      <!--@click.stop="showContactDialog")-->
-      <!--v-icon add-->
-
-    v-dialog(:fullscreen="$vuetify.breakpoint.mdAndDown", v-model="isEditingContact", width="800px")
-      v-card
-        v-card-title.grey.lighten-4.py-4.title
-          | Create Contact
-        contact-form
-        v-card-actions
-          v-spacer
-          v-btn(flat, @click="hideContactDialog")
-            | Cancel
-          v-btn(flat, @click="postContact", color="primary")
-            | Save
+    v-bottom-nav(app, fixed, color="grey darken-1",
+      v-if="$route.name !== 'home'",
+      style="bottom: 56px")
+      
+      v-btn(flat, dark, value="register")
+        span Register
+        v-icon.icon-has-plus person
+      
+      v-btn(flat, dark, value="scan")
+        span Scan
+        v-icon fas fa-qrcode
+      
+      v-btn(flat, dark, value="print")
+        span Print QR
+        v-icon print
+      
+      v-btn(flat, dark, value="reload")
+        span Reload
+        v-icon refresh
 
 </template>
 
 
 <script>
 import Vue from 'vue'
-import { mapMutations, mapState, mapActions } from 'vuex'
 
-import contactForm from './components/contact-form.vue'
-import navigationMenu from './components/navigation-menu.vue'
+import NavigationMenu from './components/navigation-menu.vue'
 
 export default {
 
   components: {
-    contactForm,
-    navigationMenu
+    NavigationMenu
   },
 
   data () {
     return {
-      title: 'ID Pass',
       cordova: Vue.cordova,
-      drawer: null
+      drawer: false
     }
   },
 
@@ -76,21 +68,9 @@ export default {
 
   computed: {
 
-    ...mapState('contacts', [
-      'isEditingContact'
-    ])
   },
 
   methods: {
-
-    ...mapMutations('contacts', [
-      'showContactDialog',
-      'hideContactDialog'
-    ]),
-
-    ...mapActions('contacts', [
-      'postContact'
-    ]),
 
     onDeviceReady: function () {
       // Handle the device ready event.
